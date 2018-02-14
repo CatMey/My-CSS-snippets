@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+<title>CSS Menu Toggle</title>
+
+<!-- CSS RESET 
+https://meyerweb.com/eric/tools/css/reset/ -->
+<link rel="stylesheet" media="screen" href="reset.css" />
+
+<style>
+.header {
+  background-color: #80D8FF;
+  min-height: 75vh;
+}
+
+/* === TOGGLE MENU === */
+
+nav {
+  margin-top: 25px;
+  margin-bottom: 25px;
+}
+
+nav > ul {
+  display: flex;
+  height: 50%;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#menu-toggle, .label-toggle {
+  display: none;
+}
+
+@media screen and (max-width: 639px) {
+  nav > ul {
+    flex-direction: column; /* vertical flow on small screens */
+    opacity: 0; /* but is transparent, as it will appear later with the sibling selector */
+    
+  }
+  .label-toggle {
+    /* Checkbox label visible on small screens */
+    display: block;
+  }
+  nav #menu-toggle:checked ~ ul {
+    /* https://developer.mozilla.org/docs/Web/CSS/General_sibling_selectors - The tilde "~" selects the element siblings, "ul" in this case"*/
+    height: 100%;
+    opacity: 1; /* no transparency */
+  }
+}
+
+/* === TOGGLE MENU END === */
+
+/* Other CSS not relevant */
+body {
+  font-size: 16px;
+  line-height: 1.6;
+  font-family: Helvetica, Arial, sans-serif
+}
+h3 {
+  font-size: large;
+  font-weight: 700;
+  margin-bottom: 50px;
+}
+section {
+  padding: 40px 25px;
+}
+section > ol  {
+  list-style-type: decimal;
+}
+section > ol > li {
+  padding-left: 25px;
+  padding-bottom: 25px;
+}
+pre, code {
+  font-family: "Lucida Console", Monaco, monospace;
+}
+pre {
+  padding: 10px 15px;
+  border: 1px solid #000;
+  overflow-x: auto;
+}
+code {
+  font-size: small;
+  color: #D50000;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<!-- Toggle menu below -->
+<nav>
+  <input type="checkbox" id="menu-toggle">
+  <label for="menu-toggle" class="label-toggle">&#9776; Menu</label>
+  <ul>
+    <li><a href="">Link One</a></li>
+    <li><a href="">Link Two</a></li>
+    <li><a href="">Link Three</a></li>
+    <li><a href="">Link Four</a></li>
+    <li><a href="">Link Five</a></li>
+    <li><a href="">Link Six</a></li>
+    <li><a href="">Link Seven</a></li>
+  </ul>
+</nav>
+
+<!-- Toggle menu above -->
+<section>
+  <h3>Resize window to trigger the toggle menu</h3>
+  <ol>
+    <li>Add a checkbox under nav at the same level as the ul:
+      <pre><code>&lt;input type="checkbox" id="menu-toggle"&gt;
+&lt;label for="menu-toggle" class="label-toggle"&gt;&amp;#9776; Menu&lt;/label&gt;</code></pre>
+      The <code>&amp;#9776;</code> character is the &#9776; symbol
+    </li>
+    <li>Checkbox and label are invisible in large screens with <code>display: none;</code>, but label is visible on small screens:
+    <pre><code>@media screen and (max-width: 639px) {
+    .label-toggle {
+        display: block;
+    }
+}</code></pre>
+    </li>
+    <li>The <code>nav &gt; ul</code> is sibling to <code>nav &gt; input</code>, so we can use the "tilde" <code>~</code> selector to target it when the checkbox label is clicked (<a href="https://developer.mozilla.org/docs/Web/CSS/General_sibling_selectors">MDN Reference</a>):
+    <pre><code>@media screen and (max-width: 639px) {
+    nav &gt; ul {
+        opacity: 0;
+    }
+    nav #menu-toggle:checked ~ ul {
+        height: 50%;
+        opacity: 1;
+    }
+}</code></pre>
+    Unsure why we have to set the height, but it is offset otherwise.
+    </li>
+  </ol>
+</section>  
+
+</body>
+
+</html>
